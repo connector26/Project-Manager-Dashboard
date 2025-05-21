@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content%}
+
+{% include 'partials/_message.html' %}
+
+<h1>Notifications</h1>
+
+{% comment %} <div class="container">
+
+    <ul class="list-group">
+        <li class='list-group-item'>To build a testint website</li>
+        <li class='list-group-item'>To build a testint website</li>
+        <li class='list-group-item'>To build a testint website</li>
+        <li class='list-group-item'>To build a testint website</li>
+        <li class='list-group-item'>To build a testint website</li>
+        <li class='list-group-item'>To build a testint website</li>
+        <li class='list-group-item'>To build a testint website</li>
+    
+    </ul>
+    
+</div> {% endcomment %}
+
+
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{%url 'projectdashboard'%}">Project Cockpit</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Create report</li>
+    </ol>
+  </nav>
+
+  
+
+
+{% endblock content%}
+
+

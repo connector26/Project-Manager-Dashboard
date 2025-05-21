@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h5>Tasks Done</h5>
+
+<div class="container mt-3">
+    {% include 'partials/_message.html' %}
+    <form action="{% url 'donetask' %}" method="post">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+                <option selected>Choose...</option>
+                {% for i in donetask %}
+                <option>{{ i.name }} - {{ i.value }}</option>
+                {% endfor %}
+            </select>
+            <input class="btn btn-outline-secondary" type="submit" value="Save">
+        </div>
+    </form>
+</div>
+
+<hr />
+
+{% endblock %}

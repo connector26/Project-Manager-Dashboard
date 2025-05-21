@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include "partials/_message.html" %}
+
+<div class="container">
+    <h1>Notifications</h1>
+    <ul class="list-group">
+        <li class='list-group-item'>To build a testing website</li>
+        <li class='list-group-item'>To build a testing website</li>
+        <li class='list-group-item'>To build a testing website</li>
+        <li class='list-group-item'>To build a testing website</li>
+        <li class='list-group-item'>To build a testing website</li>
+        <li class='list-group-item'>To build a testing website</li>
+        <li class='list-group-item'>To build a testing website</li>
+    </ul>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Company Project Completion Dashboard -->
+        <div class="col-md-4 dashboard">
+            <div class="card bg-dark text-white">
+                <div class="card-body">
+                    <h2 class="card-title">Company Project Completion</h2>
+                    <canvas id="companyProjectChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Manager's Project Completion Percentage -->
+        <div class="col-md-4 dashboard">
+            <div class="card bg-dark text-white">
+                <div class="card-body">
+                    <h2 class="card-title">Project Manager's Project Completion Percentage</h2>
+                    <canvas id="managerProjectChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Member Performance Dashboard -->
+        <div class="col-md-4 dashboard">
+            <div class="card bg-dark text-white">
+                <div class="card-body">
+                    <h2 class="card-title">Member Performance</h2>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #2c2c2c; /* Dark background */
+        color: #f8f9fa; /* Light text for contrast */
+    }
+    .dashboard h2, .card-title {
+        color: #f8f9fa; /* Light text for headers */
+    }
+    .dashboard {
+        margin-bottom: 50px;
+    }
+    .list-group-item {
+        background-color: #343a40; /* Dark background for list items */
+        color: #f8f9fa; /* Light text for list items */
+    }
+    .progress-bar {
+        background-color: #28a745; /* Green progress bar */
+    }
+    .card {
+        border: none;
+    }
+</style>
+<script>
+    // Company Project Completion Chart
+    var ctxCompany = document.getElementById('companyProjectChart').getContext('2d');
+    var companyProjectChart = new Chart(ctxCompany, {
+        type: 'bar',
+        data: {
+            labels: ['Project A', 'Project B', 'Project C', 'Project D'],
+            datasets: [{
+                label: 'Completion Percentage',
+                data: [95, 80, 65, 50],
+                backgroundColor: 'rgba(23, 162, 184, 0.2)', /* Light blue */
+                borderColor: 'rgba(23, 162, 184, 1)', /* Light blue */
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        color: '#f8f9fa' /* Light text */
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: '#f8f9fa' /* Light text */
+                    }
+                }
+            }
+        }
+    });
+
+    // Project Manager's Project Completion Percentage Chart
+    var ctxManager = document.getElementById('managerProjectChart').getContext('2d');
+    var managerProjectChart = new Chart(ctxManager, {
+        type: 'doughnut',
+        data: {
+            labels: ['Completed', 'In Progress', 'Not Started'],
+            datasets: [{
+                label: 'Project Completion',
+                data: [60, 30, 10],
+                backgroundColor: [
+                    'rgba(40, 167, 69, 0.2)', /* Green */
+                    'rgba(255, 193, 7, 0.2)', /* Yellow */
+                    'rgba(220, 53, 69, 0.2)' /* Red */
+                ],
+                borderColor: [
+                    'rgba(40, 167, 69, 1)', /* Green */
+                    'rgba(255, 193, 7, 1)', /* Yellow */
+                    'rgba(220, 53, 69, 1)' /* Red */
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#f8f9fa' /* Light text */
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock content %}

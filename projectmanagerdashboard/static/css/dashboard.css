@@ -1,0 +1,51 @@
+/* Sidebar Styles */
+.sidebar {
+  background: linear-gradient(180deg, #ffffff, #add8e6); /* Gradient from white to light blue */
+  height: 100vh; /* Full height of the viewport */
+  color: #000000; /* Black text for better readability */
+}
+
+.sidebar a.nav-link, .sidebar button.nav-link {
+  color: #ff69b4; /* Pink Text */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth animation */
+}
+
+.sidebar a.nav-link:hover, .sidebar button.nav-link:hover {
+  background-color: #ff69b4; /* Pink Background on hover */
+  color: #ffffff; /* White Text on hover */
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.sidebar a.nav-link:active, .sidebar button.nav-link:active {
+  transform: scale(1.1); /* Slight zoom on click */
+}
+
+.sidebar .nav-item {
+  border-bottom: 1px solid #add8e6; /* Light Blue Border */
+}
+
+.sidebar hr {
+  border-color: #add8e6; /* Light Blue HR */
+  margin-top: auto; /* Ensure it is placed correctly */
+}
+
+.sidebar .nav-bottom {
+  margin-top: auto; /* Push to bottom */
+}
+
+.sidebar .nav-bottom form button {
+  color: #ff69b4; /* Pink Text for Sign out button */
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.sidebar .nav-bottom form button:hover {
+  background-color: #ff69b4; /* Pink Background on hover */
+  color: #ffffff; /* White Text on hover */
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.sidebar .nav-bottom form button:active {
+  transform: scale(1.1); /* Slight zoom on click */
+}
