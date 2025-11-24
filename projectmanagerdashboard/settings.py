@@ -14,11 +14,7 @@ from pathlib import Path
 from django.contrib import messages
 import os
 from dotenv import load_dotenv
-<<<<<<< HEAD
 # import heroku
-=======
-#import heroku
->>>>>>> 7c2fc47 (doc:updated successfullt)
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -68,11 +64,7 @@ ROOT_URLCONF = 'projectmanagerdashboard.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-<<<<<<< HEAD
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-=======
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
->>>>>>> 7c2fc47 (doc:updated successfullt)
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -138,20 +130,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-<<<<<<< HEAD
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'projectmanagerdashboard/static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-=======
-STATICFILES_DIRS=[os.path.join(BASE_DIR,'projectmanagerdashboard/static')]
-STATIC_ROOT=os.path.join(BASE_DIR,'static')
->>>>>>> 7c2fc47 (doc:updated successfullt)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Default primary key field type
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-<<<<<<< HEAD
 # django_heroku.settings(locals())
 
 MESSAGE_TAGS = {
@@ -166,19 +152,3 @@ DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
 EMAIL_PORT = 587
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND")
-=======
-#django_heroku.settings(locals())
-
-MESSAGE_TAGS={
-    messages.ERROR:'danger'
-}
-
-#email
-EMAIL_HOSTS=os.environ.get('EMAIL_HOST')
-EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER')
-EMAIL_USE_TLS=True
-DEFAULT_FROM_EMAIL=os.environ.get('EMAIL_HOST_USER')
-EMAIL_PORT=587
-EMAIL_HOST_PASSWORD=os.environ.get("EMAIL_HOST_PASSWORD")
-EMAIL_BACKEND=os.environ.get("EMAIL_BACKEND")
->>>>>>> 7c2fc47 (doc:updated successfullt)
