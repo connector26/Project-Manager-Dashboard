@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    options {
+        skipDefaultCheckout(true)
+    }
     
     environment {
         DOCKER_REGISTRY = credentials('docker-registry-url')
@@ -104,7 +107,9 @@ pipeline {
             echo 'Pipeline failed!'
         }
         always {
-            deleteDir()
+            node {
+                deleteDir()
+            }
         }
     }
 }
