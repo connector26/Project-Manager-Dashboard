@@ -107,7 +107,7 @@ pipeline {
             echo 'Pipeline failed!'
         }
         always {
-            node {
+            ws("${env.WORKSPACE}") {
                 deleteDir()
             }
         }
