@@ -2,10 +2,10 @@ pipeline {
     agent any
     options {
         skipDefaultCheckout(true)
-        PYTHON_IMAGE = 'python:3.11-slim'
     }
     
     environment {
+        PYTHON_IMAGE = 'python:3.11-slim'
         DOCKER_REGISTRY = 'docker-registry-url'
         DOCKER_IMAGE = 'project-manager-dashboard'
         DOCKER_TAG = "${env.BUILD_NUMBER}"
