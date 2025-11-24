@@ -2,6 +2,7 @@ pipeline {
     agent any
     options {
         skipDefaultCheckout(true)
+        PYTHON_IMAGE = 'python:3.11-slim'
     }
     
     environment {
@@ -20,43 +21,59 @@ pipeline {
         
         stage('Install Dependencies') {
             steps {
-                sh '''
-                    python3 -m venv venv || true
-                    source venv/bin/activate || . venv/Scripts/activate
-                    pip install --upgrade pip
-                    pip install -r requirements.txt
-                '''
+                script {
+                    docker.image(env.PYTHON_IMAGE).inside('-u root:root') {
+                        sh '''
+                            python -m venv venv
+                            . venv/bin/activate
+                            pip install --upgrade pip
+                            pip install -r requirements.txt
+                        '''
+                    }
+                }
             }
         }
         
         stage('Lint') {
             steps {
-                sh '''
-                    source venv/bin/activate || . venv/Scripts/activate
-                    pip install flake8 pylint || true
-                    flake8 projectmanagerdashboard/ --max-line-length=120 --exclude=migrations,__pycache__ || true
-                '''
+                script {
+                    docker.image(env.PYTHON_IMAGE).inside('-u root:root') {
+                        sh '''
+                            . venv/bin/activate
+                            pip install flake8 pylint
+                            flake8 projectmanagerdashboard/ --max-line-length=120 --exclude=migrations,__pycache__
+                        '''
+                    }
+                }
             }
         }
         
         stage('Test') {
             steps {
-                sh '''
-                    source venv/bin/activate || . venv/Scripts/activate
-                    cd projectmanagerdashboard
-                    python manage.py test --noinput || true
-                '''
+                script {
+                    docker.image(env.PYTHON_IMAGE).inside('-u root:root') {
+                        sh '''
+                            . venv/bin/activate
+                            cd projectmanagerdashboard
+                            python manage.py test --noinput
+                        '''
+                    }
+                }
             }
         }
         
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh '''
-                        source venv/bin/activate || . venv/Scripts/activate
-                        pip install sonar-scanner-cli || true
-                        sonar-scanner -Dproject.settings=sonar-project.properties -Dsonar.login=${SONAR_TOKEN} || true
-                    '''
+                script {
+                    docker.image(env.PYTHON_IMAGE).inside('-u root:root') {
+                        withSonarQubeEnv('SonarQube') {
+                            sh '''
+                                . venv/bin/activate
+                                pip install sonar-scanner-cli
+                                sonar-scanner -Dproject.settings=sonar-project.properties -Dsonar.login=${SONAR_TOKEN}
+                            '''
+                        }
+                    }
                 }
             }
         }
