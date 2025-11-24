@@ -8,7 +8,6 @@ pipeline {
         DOCKER_REGISTRY = credentials('docker-registry-url')
         DOCKER_IMAGE = 'project-manager-dashboard'
         DOCKER_TAG = "${env.BUILD_NUMBER}"
-        KUBECONFIG = credentials('kubeconfig')
         SONAR_TOKEN = credentials('sonar-token')
     }
     
@@ -84,19 +83,6 @@ pipeline {
                 }
             }
         }
-        
-        stage('Deploy to Kubernetes') {
-            steps {
-                script {
-                    sh '''
-                        export KUBECONFIG=${KUBECONFIG}
-                        kubectl set image deployment/project-manager-dashboard \
-                            project-manager-dashboard=${DOCKER_IMAGE}:${DOCKER_TAG} \
-                            -n default || kubectl apply -f k8s/ -n default
-                    '''
-                }
-            }
-        }
     }
     
     post {
@@ -107,8 +93,18 @@ pipeline {
             echo 'Pipeline failed!'
         }
         always {
-            ws("${env.WORKSPACE}") {
-                deleteDir()
+            script {
+                if (env.NODE_NAME?.trim()) {
+                    node(env.NODE_NAME) {
+                        deleteDir()
+                    }
+                } else if (env.WORKSPACE?.trim()) {
+                    dir(env.WORKSPACE) {
+                        deleteDir()
+                    }
+                } else {
+                    echo 'Skipping workspace cleanup: node/workspace unknown.'
+                }
             }
         }
     }
