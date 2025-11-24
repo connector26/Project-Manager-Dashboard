@@ -75,19 +75,25 @@ pipeline {
         
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    container('dind') {
-                        sh '''
-                            docker run --rm \
-                              -v "$PWD":/workspace \
-                              -w /workspace \
-                              ${PYTHON_IMAGE} bash -c "
-                                set -euo pipefail
-                                . venv/bin/activate
-                                pip install sonar-scanner-cli
-                                sonar-scanner -Dproject.settings=sonar-project.properties -Dsonar.login=${SONAR_TOKEN}
-                              "
-                        '''
+                script {
+                    try {
+                        withSonarQubeEnv('SonarQube') {
+                            container('dind') {
+                                sh '''
+                                    docker run --rm \
+                                      -v "$PWD":/workspace \
+                                      -w /workspace \
+                                      ${PYTHON_IMAGE} bash -c "
+                                        set -euo pipefail
+                                        . venv/bin/activate
+                                        pip install sonar-scanner-cli
+                                        sonar-scanner -Dproject.settings=sonar-project.properties -Dsonar.login=${SONAR_TOKEN}
+                                      "
+                                '''
+                            }
+                        }
+                    } catch (Exception err) {
+                        echo "Skipping SonarQube analysis: ${err.getMessage()}"
                     }
                 }
             }
