@@ -8,7 +8,7 @@ pipeline {
         DOCKER_REGISTRY = credentials('docker-registry-url')
         DOCKER_IMAGE = 'project-manager-dashboard'
         DOCKER_TAG = "${env.BUILD_NUMBER}"
-        SONAR_TOKEN = credentials('sonar-token')
+        SONAR_TOKEN = credentials('squ_18656fce255fc6a3434e2cba3a27c3015a2e3be5')
     }
     
     stages {
