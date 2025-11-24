@@ -218,7 +218,6 @@ pipeline {
                           ${PYTHON_IMAGE} bash -c "
                             set -euo pipefail
                             . venv/bin/activate
-                            cd projectmanagerdashboard
                             python manage.py test --noinput
                           "
                     '''
