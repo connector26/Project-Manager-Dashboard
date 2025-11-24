@@ -21,58 +21,74 @@ pipeline {
         
         stage('Install Dependencies') {
             steps {
-                script {
-                    docker.image(env.PYTHON_IMAGE).inside('-u root:root') {
-                        sh '''
+                container('dind') {
+                    sh '''
+                        docker run --rm \
+                          -v "$PWD":/workspace \
+                          -w /workspace \
+                          ${PYTHON_IMAGE} bash -c "
+                            set -euo pipefail
                             python -m venv venv
                             . venv/bin/activate
                             pip install --upgrade pip
                             pip install -r requirements.txt
-                        '''
-                    }
+                          "
+                    '''
                 }
             }
         }
         
         stage('Lint') {
             steps {
-                script {
-                    docker.image(env.PYTHON_IMAGE).inside('-u root:root') {
-                        sh '''
+                container('dind') {
+                    sh '''
+                        docker run --rm \
+                          -v "$PWD":/workspace \
+                          -w /workspace \
+                          ${PYTHON_IMAGE} bash -c "
+                            set -euo pipefail
                             . venv/bin/activate
                             pip install flake8 pylint
                             flake8 projectmanagerdashboard/ --max-line-length=120 --exclude=migrations,__pycache__
-                        '''
-                    }
+                          "
+                    '''
                 }
             }
         }
         
         stage('Test') {
             steps {
-                script {
-                    docker.image(env.PYTHON_IMAGE).inside('-u root:root') {
-                        sh '''
+                container('dind') {
+                    sh '''
+                        docker run --rm \
+                          -v "$PWD":/workspace \
+                          -w /workspace \
+                          ${PYTHON_IMAGE} bash -c "
+                            set -euo pipefail
                             . venv/bin/activate
                             cd projectmanagerdashboard
                             python manage.py test --noinput
-                        '''
-                    }
+                          "
+                    '''
                 }
             }
         }
         
         stage('SonarQube Analysis') {
             steps {
-                script {
-                    docker.image(env.PYTHON_IMAGE).inside('-u root:root') {
-                        withSonarQubeEnv('SonarQube') {
-                            sh '''
+                withSonarQubeEnv('SonarQube') {
+                    container('dind') {
+                        sh '''
+                            docker run --rm \
+                              -v "$PWD":/workspace \
+                              -w /workspace \
+                              ${PYTHON_IMAGE} bash -c "
+                                set -euo pipefail
                                 . venv/bin/activate
                                 pip install sonar-scanner-cli
                                 sonar-scanner -Dproject.settings=sonar-project.properties -Dsonar.login=${SONAR_TOKEN}
-                            '''
-                        }
+                              "
+                        '''
                     }
                 }
             }
@@ -80,7 +96,7 @@ pipeline {
         
         stage('Build Docker Image') {
             steps {
-                script {
+                container('dind') {
                     sh '''
                         docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
                         docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
@@ -91,7 +107,7 @@ pipeline {
         
         stage('Push to Registry') {
             steps {
-                script {
+                container('dind') {
                     sh '''
                         docker login -u ${DOCKER_REGISTRY_USR} -p ${DOCKER_REGISTRY_PSW} ${DOCKER_REGISTRY}
                         docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
