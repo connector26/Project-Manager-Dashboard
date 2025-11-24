@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                git branch: 'main', url: 'https://github.com/connector26/Project-Manager-Dashboard.git'
             }
         }
         
@@ -104,7 +104,7 @@ pipeline {
             echo 'Pipeline failed!'
         }
         always {
-            cleanWs()
+            deleteDir()
         }
     }
 }
