@@ -22,10 +22,11 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
-                    python3 -m venv venv
+                    python --version
+                    python -m venv venv
                     . venv/bin/activate
-                    pip install --upgrade pip
-                    pip install -r requirements.txt
+                    python -m pip install --upgrade pip
+                    python -m pip install -r requirements.txt
                 '''
             }
         }
@@ -34,7 +35,7 @@ pipeline {
             steps {
                 sh '''
                     . venv/bin/activate
-                    pip install flake8 pylint
+                    python -m pip install flake8 pylint
                     flake8 projectmanagerdashboard/ --max-line-length=120 --exclude=migrations,__pycache__
                 '''
             }
@@ -44,7 +45,7 @@ pipeline {
             steps {
                 sh '''
                     . venv/bin/activate
-                    python3 manage.py test --noinput
+                    python manage.py test --noinput
                 '''
             }
         }
@@ -56,7 +57,7 @@ pipeline {
                         withSonarQubeEnv('SonarQube') {
                             sh '''
                                 . venv/bin/activate
-                                pip install sonar-scanner-cli
+                                python -m pip install sonar-scanner-cli
                                 sonar-scanner -Dproject.settings=sonar-project.properties -Dsonar.login=${SONAR_TOKEN}
                             '''
                         }
