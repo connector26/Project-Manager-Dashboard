@@ -22,22 +22,22 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
-                    if ! command -v python3 &> /dev/null; then
-                        echo "python3 not found. Attempting installation..."
+                    if ! command -v python &> /dev/null; then
+                        echo "python not found. Attempting installation..."
                         if [ -f /etc/debian_version ]; then
-                            sudo apt-get update && sudo apt-get install -y python3 python3-venv python3-pip
+                            apt-get update && apt-get install -y python python-pip
                         elif [ -f /etc/alpine-release ]; then
-                            sudo apk add --no-cache python3 py3-pip
+                            apk add --no-cache python py-pip
                         else
-                            echo "Unsupported OS. Cannot install python3 automatically."
+                            echo "Unsupported OS. Cannot install python automatically."
                             exit 1
                         fi
                     fi
-                    python3 --version
-                    python3 -m venv venv
+                    python --version
+                    python -m venv venv
                     . venv/bin/activate
-                    python3 -m pip install --upgrade pip
-                    python3 -m pip install -r requirements.txt
+                    python -m pip install --upgrade pip
+                    python -m pip install -r requirements.txt
                 '''
             }
         }
@@ -46,7 +46,7 @@ pipeline {
             steps {
                 sh '''
                     . venv/bin/activate
-                    python3 -m pip install flake8 pylint
+                    python -m pip install flake8 pylint
                     flake8 projectmanagerdashboard/ --max-line-length=120 --exclude=migrations,__pycache__
                 '''
             }
@@ -56,7 +56,7 @@ pipeline {
             steps {
                 sh '''
                     . venv/bin/activate
-                    python3 manage.py test --noinput
+                    python manage.py test --noinput
                 '''
             }
         }
@@ -68,7 +68,7 @@ pipeline {
                         withSonarQubeEnv('SonarQube') {
                             sh '''
                                 . venv/bin/activate
-                                python3 -m pip install sonar-scanner-cli
+                                python -m pip install sonar-scanner-cli
                                 sonar-scanner -Dproject.settings=sonar-project.properties -Dsonar.login=${SONAR_TOKEN}
                             '''
                         }
