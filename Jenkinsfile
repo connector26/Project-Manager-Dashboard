@@ -21,55 +21,49 @@ pipeline {
         
         stage('Install Dependencies') {
             steps {
-                container('dind') {
-                    sh '''
-                        docker run --rm \
-                          -v "$PWD":/workspace \
-                          -w /workspace \
-                          ${PYTHON_IMAGE} bash -c "
-                            set -euo pipefail
-                            python -m venv venv
-                            . venv/bin/activate
-                            pip install --upgrade pip
-                            pip install -r requirements.txt
-                          "
-                    '''
-                }
+                sh '''
+                    docker run --rm \
+                      -v "$PWD":/workspace \
+                      -w /workspace \
+                      ${PYTHON_IMAGE} bash -c "
+                        set -euo pipefail
+                        python -m venv venv
+                        . venv/bin/activate
+                        pip install --upgrade pip
+                        pip install -r requirements.txt
+                      "
+                '''
             }
         }
         
         stage('Lint') {
             steps {
-                container('dind') {
-                    sh '''
-                        docker run --rm \
-                          -v "$PWD":/workspace \
-                          -w /workspace \
-                          ${PYTHON_IMAGE} bash -c "
-                            set -euo pipefail
-                            . venv/bin/activate
-                            pip install flake8 pylint
-                            flake8 projectmanagerdashboard/ --max-line-length=120 --exclude=migrations,__pycache__
-                          "
-                    '''
-                }
+                sh '''
+                    docker run --rm \
+                      -v "$PWD":/workspace \
+                      -w /workspace \
+                      ${PYTHON_IMAGE} bash -c "
+                        set -euo pipefail
+                        . venv/bin/activate
+                        pip install flake8 pylint
+                        flake8 projectmanagerdashboard/ --max-line-length=120 --exclude=migrations,__pycache__
+                      "
+                '''
             }
         }
         
         stage('Test') {
             steps {
-                container('dind') {
-                    sh '''
-                        docker run --rm \
-                          -v "$PWD":/workspace \
-                          -w /workspace \
-                          ${PYTHON_IMAGE} bash -c "
-                            set -euo pipefail
-                            . venv/bin/activate
-                            python manage.py test --noinput
-                          "
-                    '''
-                }
+                sh '''
+                    docker run --rm \
+                      -v "$PWD":/workspace \
+                      -w /workspace \
+                      ${PYTHON_IMAGE} bash -c "
+                        set -euo pipefail
+                        . venv/bin/activate
+                        python manage.py test --noinput
+                      "
+                '''
             }
         }
         
@@ -78,19 +72,17 @@ pipeline {
                 script {
                     try {
                         withSonarQubeEnv('SonarQube') {
-                            container('dind') {
-                                sh '''
-                                    docker run --rm \
-                                      -v "$PWD":/workspace \
-                                      -w /workspace \
-                                      ${PYTHON_IMAGE} bash -c "
-                                        set -euo pipefail
-                                        . venv/bin/activate
-                                        pip install sonar-scanner-cli
-                                        sonar-scanner -Dproject.settings=sonar-project.properties -Dsonar.login=${SONAR_TOKEN}
-                                      "
-                                '''
-                            }
+                            sh '''
+                                docker run --rm \
+                                  -v "$PWD":/workspace \
+                                  -w /workspace \
+                                  ${PYTHON_IMAGE} bash -c "
+                                    set -euo pipefail
+                                    . venv/bin/activate
+                                    pip install sonar-scanner-cli
+                                    sonar-scanner -Dproject.settings=sonar-project.properties -Dsonar.login=${SONAR_TOKEN}
+                                  "
+                            '''
                         }
                     } catch (Exception err) {
                         echo "Skipping SonarQube analysis: ${err.getMessage()}"
@@ -101,24 +93,20 @@ pipeline {
         
         stage('Build Docker Image') {
             steps {
-                container('dind') {
-                    sh '''
-                        docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
-                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
-                    '''
-                }
+                sh '''
+                    docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                    docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
+                '''
             }
         }
         
         stage('Push to Registry') {
             steps {
-                container('dind') {
-                    sh '''
-                        docker login -u ${DOCKER_REGISTRY_USR} -p ${DOCKER_REGISTRY_PSW} ${DOCKER_REGISTRY}
-                        docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
-                        docker push ${DOCKER_IMAGE}:latest
-                    '''
-                }
+                sh '''
+                    docker login -u ${DOCKER_REGISTRY_USR} -p ${DOCKER_REGISTRY_PSW} ${DOCKER_REGISTRY}
+                    docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
+                    docker push ${DOCKER_IMAGE}:latest
+                '''
             }
         }
     }
