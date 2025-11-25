@@ -22,22 +22,33 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
-                    if ! command -v python &> /dev/null; then
-                        echo "python not found. Attempting installation..."
-                        if [ -f /etc/debian_version ]; then
-                            apt-get update && apt-get install -y python python-pip
-                        elif [ -f /etc/alpine-release ]; then
-                            apk add --no-cache python py-pip
-                        else
-                            echo "Unsupported OS. Cannot install python automatically."
-                            exit 1
+                    # Setup portable python if system python is missing or incompatible
+                    if ! command -v python3 >/dev/null 2>&1; then
+                        echo "python3 not found. Downloading portable python..."
+                        if [ ! -d "python" ]; then
+                            PYTHON_URL="https://github.com/indygreg/python-build-standalone/releases/download/20230826/cpython-3.10.13+20230826-x86_64-unknown-linux-gnu-install_only.tar.gz"
+                            if command -v curl >/dev/null 2>&1; then
+                                curl -L -o python.tar.gz "$PYTHON_URL"
+                            elif command -v wget >/dev/null 2>&1; then
+                                wget -O python.tar.gz "$PYTHON_URL"
+                            else
+                                echo "Error: Neither curl nor wget found. Cannot download python."
+                                exit 1
+                            fi
+                            tar -xzf python.tar.gz
+                            rm python.tar.gz
                         fi
+                        # Add portable python to PATH for this script block
+                        export PATH="$PWD/python/bin:$PATH"
                     fi
-                    python --version
-                    python -m venv venv
+                    
+                    echo "Using python: $(which python3)"
+                    python3 --version
+                    
+                    python3 -m venv venv
                     . venv/bin/activate
-                    python -m pip install --upgrade pip
-                    python -m pip install -r requirements.txt
+                    python3 -m pip install --upgrade pip
+                    python3 -m pip install -r requirements.txt
                 '''
             }
         }
@@ -45,8 +56,13 @@ pipeline {
         stage('Lint') {
             steps {
                 sh '''
+                    # Add portable python to PATH if it exists
+                    if [ -d "python/bin" ]; then
+                        export PATH="$PWD/python/bin:$PATH"
+                    fi
+                    
                     . venv/bin/activate
-                    python -m pip install flake8 pylint
+                    python3 -m pip install flake8 pylint
                     flake8 projectmanagerdashboard/ --max-line-length=120 --exclude=migrations,__pycache__
                 '''
             }
@@ -55,8 +71,13 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
+                    # Add portable python to PATH if it exists
+                    if [ -d "python/bin" ]; then
+                        export PATH="$PWD/python/bin:$PATH"
+                    fi
+                    
                     . venv/bin/activate
-                    python manage.py test --noinput
+                    python3 manage.py test --noinput
                 '''
             }
         }
@@ -67,8 +88,13 @@ pipeline {
                     try {
                         withSonarQubeEnv('SonarQube') {
                             sh '''
+                                # Add portable python to PATH if it exists
+                                if [ -d "python/bin" ]; then
+                                    export PATH="$PWD/python/bin:$PATH"
+                                fi
+                                
                                 . venv/bin/activate
-                                python -m pip install sonar-scanner-cli
+                                python3 -m pip install sonar-scanner-cli
                                 sonar-scanner -Dproject.settings=sonar-project.properties -Dsonar.login=${SONAR_TOKEN}
                             '''
                         }
