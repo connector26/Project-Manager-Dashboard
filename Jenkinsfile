@@ -22,11 +22,22 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
-                    python --version
-                    python -m venv venv
+                    if ! command -v python3 &> /dev/null; then
+                        echo "python3 not found. Attempting installation..."
+                        if [ -f /etc/debian_version ]; then
+                            sudo apt-get update && sudo apt-get install -y python3 python3-venv python3-pip
+                        elif [ -f /etc/alpine-release ]; then
+                            sudo apk add --no-cache python3 py3-pip
+                        else
+                            echo "Unsupported OS. Cannot install python3 automatically."
+                            exit 1
+                        fi
+                    fi
+                    python3 --version
+                    python3 -m venv venv
                     . venv/bin/activate
-                    python -m pip install --upgrade pip
-                    python -m pip install -r requirements.txt
+                    python3 -m pip install --upgrade pip
+                    python3 -m pip install -r requirements.txt
                 '''
             }
         }
@@ -35,7 +46,7 @@ pipeline {
             steps {
                 sh '''
                     . venv/bin/activate
-                    python -m pip install flake8 pylint
+                    python3 -m pip install flake8 pylint
                     flake8 projectmanagerdashboard/ --max-line-length=120 --exclude=migrations,__pycache__
                 '''
             }
@@ -45,7 +56,7 @@ pipeline {
             steps {
                 sh '''
                     . venv/bin/activate
-                    python manage.py test --noinput
+                    python3 manage.py test --noinput
                 '''
             }
         }
@@ -57,7 +68,7 @@ pipeline {
                         withSonarQubeEnv('SonarQube') {
                             sh '''
                                 . venv/bin/activate
-                                python -m pip install sonar-scanner-cli
+                                python3 -m pip install sonar-scanner-cli
                                 sonar-scanner -Dproject.settings=sonar-project.properties -Dsonar.login=${SONAR_TOKEN}
                             '''
                         }
