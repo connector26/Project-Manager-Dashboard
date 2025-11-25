@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-manager-dashboard
+  labels:
+    app: project-manager-dashboard
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: project-manager-dashboard
+  template:
+    metadata:
+      labels:
+        app: project-manager-dashboard
+        version: v1
+    spec:
+      initContainers:
+      - name: migrate
+        image: project-manager-dashboard:latest
+        command: ['python', 'manage.py', 'migrate', '--noinput']
+        envFrom:
+        - configMapRef:
+            name: project-manager-dashboard-config
+        - secretRef:
+            name: project-manager-dashboard-secret
+        volumeMounts:
+        - name: static-files
+          mountPath: /app/static
+      containers:
+      - name: project-manager-dashboard
+        image: project-manager-dashboard:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+          name: http
+          protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: project-manager-dashboard-config
+        - secretRef:
+            name: project-manager-dashboard-secret
+        volumeMounts:
+        - name: static-files
+          mountPath: /app/static
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      volumes:
+      - name: static-files
+        emptyDir: {}
+

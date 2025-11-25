@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+<<<<<<< HEAD
 from django.urls import path, include
 from django.http import HttpResponse
 
@@ -27,6 +28,18 @@ urlpatterns = [
     path('', include('projectdashboard.urls')),
     path('authentication/', include('authentication.urls')),
     path('donetask/', include('donetask.urls')),
+=======
+from django.urls import path,include
+from django.http import HttpResponse
+
+def healthcheck(_request):
+    return HttpResponse('ok')
+
+urlpatterns = [
+    path('',include('projectdashboard.urls')),
+    path('authentication/',include('authentication.urls')),
+    path('donetask/',include('donetask.urls')),
+>>>>>>> 7c2fc47 (doc:updated successfullt)
     path('healthz', healthcheck, name='healthz'),
     path('admin/', admin.site.urls),
 ]

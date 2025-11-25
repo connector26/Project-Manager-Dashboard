@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: project-manager-dashboard-config
+  labels:
+    app: project-manager-dashboard
+data:
+  DJANGO_DEBUG: "False"
+  DJANGO_ALLOWED_HOSTS: "project-manager-dashboard.example.com,localhost,127.0.0.1"
+  DJANGO_CSRF_TRUSTED_ORIGINS: "https://project-manager-dashboard.example.com,http://localhost"
+  DB_ENGINE: "django.db.backends.postgresql"
+  DB_NAME: "projectmanagerdb"
+  DB_HOST: "postgres-service"
+  DB_PORT: "5432"
+  EMAIL_BACKEND: "django.core.mail.backends.smtp.EmailBackend"
+  EMAIL_HOST: "smtp.gmail.com"
+  EMAIL_USE_TLS: "True"
+  EMAIL_PORT: "587"
+  STATIC_ROOT: "/app/static"
+  # Add other non-sensitive configuration here
+

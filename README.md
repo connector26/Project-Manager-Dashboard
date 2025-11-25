@@ -1,3 +1,42 @@
+<<<<<<< HEAD
+=======
+# Project-Manager-Dashboard
+📊 **Project Manager Dashboard** is a lightweight yet powerful project tracking tool built with Django and MySQL. It provides a centralized space for project managers to monitor deadlines, manage deliverables, and ensure timely execution of project goals.
+
+## Docker & CI/CD
+
+Build and run locally:
+
+```bash
+docker build -t projectmanagerdashboard:latest .
+docker run --rm -p 8000:8000 \
+  -e DJANGO_SECRET_KEY=dev \
+  -e DJANGO_DEBUG=False \
+  -e DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1 \
+  projectmanagerdashboard:latest
+```
+
+Environment variables:
+- `DJANGO_SECRET_KEY`: Django secret
+- `DJANGO_DEBUG`: True/False
+- `DJANGO_ALLOWED_HOSTS`: comma-separated
+- `DB_ENGINE`, `DB_NAME`, `DB_USER`, `DB_USER_PASSWORD`, `DB_HOST`, `DB_PORT`
+- `EMAIL_HOST`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, `EMAIL_BACKEND`
+
+Health check: `GET /healthz` returns `ok`.
+
+CI/CD minimal steps:
+
+1. Install deps
+   - `pip install -r requirements.txt`
+2. Run database migrations
+   - `python manage.py migrate --noinput`
+3. Collect static
+   - `python manage.py collectstatic --noinput`
+4. Start server
+   - `gunicorn projectmanagerdashboard.wsgi:application --bind 0.0.0.0:8000 --workers 3`
+
+>>>>>>> 7c2fc47 (doc:updated successfullt)
 # 📊 Project Manager Dashboard
 
 A Django and MySQL-based dashboard application designed to help project managers track deliverables and ensure timely delivery of projects. Built for scalability and real-time monitoring of tasks, the dashboard supports both small and large-scale project tracking.
