@@ -5,7 +5,7 @@ pipeline {
     }
     
     environment {
-        PYTHON_IMAGE = 'python:3.11-slim'
+        // PYTHON_IMAGE = 'python:3.11-slim' // Not used in native mode
         DOCKER_REGISTRY = 'docker-registry-url'
         DOCKER_IMAGE = 'project-manager-dashboard'
         DOCKER_TAG = "${env.BUILD_NUMBER}"
@@ -22,16 +22,10 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
-                    docker run --rm \
-                      -v "$PWD":/workspace \
-                      -w /workspace \
-                      ${PYTHON_IMAGE} bash -c "
-                        set -euo pipefail
-                        python -m venv venv
-                        . venv/bin/activate
-                        pip install --upgrade pip
-                        pip install -r requirements.txt
-                      "
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
                 '''
             }
         }
@@ -39,15 +33,9 @@ pipeline {
         stage('Lint') {
             steps {
                 sh '''
-                    docker run --rm \
-                      -v "$PWD":/workspace \
-                      -w /workspace \
-                      ${PYTHON_IMAGE} bash -c "
-                        set -euo pipefail
-                        . venv/bin/activate
-                        pip install flake8 pylint
-                        flake8 projectmanagerdashboard/ --max-line-length=120 --exclude=migrations,__pycache__
-                      "
+                    . venv/bin/activate
+                    pip install flake8 pylint
+                    flake8 projectmanagerdashboard/ --max-line-length=120 --exclude=migrations,__pycache__
                 '''
             }
         }
@@ -55,14 +43,8 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                    docker run --rm \
-                      -v "$PWD":/workspace \
-                      -w /workspace \
-                      ${PYTHON_IMAGE} bash -c "
-                        set -euo pipefail
-                        . venv/bin/activate
-                        python manage.py test --noinput
-                      "
+                    . venv/bin/activate
+                    python3 manage.py test --noinput
                 '''
             }
         }
@@ -73,15 +55,9 @@ pipeline {
                     try {
                         withSonarQubeEnv('SonarQube') {
                             sh '''
-                                docker run --rm \
-                                  -v "$PWD":/workspace \
-                                  -w /workspace \
-                                  ${PYTHON_IMAGE} bash -c "
-                                    set -euo pipefail
-                                    . venv/bin/activate
-                                    pip install sonar-scanner-cli
-                                    sonar-scanner -Dproject.settings=sonar-project.properties -Dsonar.login=${SONAR_TOKEN}
-                                  "
+                                . venv/bin/activate
+                                pip install sonar-scanner-cli
+                                sonar-scanner -Dproject.settings=sonar-project.properties -Dsonar.login=${SONAR_TOKEN}
                             '''
                         }
                     } catch (Exception err) {
@@ -91,6 +67,7 @@ pipeline {
             }
         }
         
+        /*
         stage('Build Docker Image') {
             steps {
                 sh '''
@@ -109,6 +86,7 @@ pipeline {
                 '''
             }
         }
+        */
     }
     
     post {
