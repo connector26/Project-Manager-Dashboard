@@ -6,7 +6,7 @@ pipeline {
     
     environment {
         // PYTHON_IMAGE = 'python:3.11-slim' // Not used in native mode
-        DOCKER_REGISTRY = 'docker-registry-url'
+        DOCKER_REGISTRY = 'nexus.example.com:8082'  // Update with your Nexus Docker registry URL:port
         DOCKER_IMAGE = 'project-manager-dashboard'
         DOCKER_TAG = "${env.BUILD_NUMBER}"
         SONAR_TOKEN = 'squ_18656fce255fc6a3434e2cba3a27c3015a2e3be5'
@@ -105,26 +105,38 @@ pipeline {
             }
         }
         
-        /*
-        stage('Build Docker Image') {
+        stage('Build Docker Image')  {
             steps {
-                sh '''
-                    docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
-                    docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
-                '''
+                script {
+                    // Use docker command from DinD container
+                    sh '''
+                        docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
+                    '''
+                }
             }
         }
         
-        stage('Push to Registry') {
+        stage('Push to Nexus') {
             steps {
-                sh '''
-                    docker login -u ${DOCKER_REGISTRY_USR} -p ${DOCKER_REGISTRY_PSW} ${DOCKER_REGISTRY}
-                    docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
-                    docker push ${DOCKER_IMAGE}:latest
-                '''
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'nexus-credentials', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
+                        sh '''
+                            # Login to Nexus Docker registry
+                            echo $NEXUS_PASS | docker login -u $NEXUS_USER --password-stdin ${DOCKER_REGISTRY}
+                            
+                            # Tag images for Nexus
+                            docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
+                            docker tag ${DOCKER_IMAGE}:latest ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:latest
+                            
+                            # Push to Nexus
+                            docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
+                            docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:latest
+                        '''
+                    }
+                }
             }
         }
-        */
     }
     
     post {
