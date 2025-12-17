@@ -91,6 +91,9 @@ DATABASES = {
         'PASSWORD': os.environ.get('DB_USER_PASSWORD', ''),
         'HOST': os.environ.get('DB_HOST', ''),
         'PORT': os.environ.get('DB_PORT', ''),
+        'TEST': {
+            'SERIALIZE': False,  # Disable serialization for test database
+        },
     }
 }
 
