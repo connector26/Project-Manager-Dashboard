@@ -27,6 +27,6 @@ urlpatterns = [
     path('', include('projectdashboard.urls')),
     path('authentication/', include('authentication.urls')),
     path('donetask/', include('donetask.urls')),
-    path('healthz', healthcheck, name='healthz'),
+    path('healthz/', healthcheck, name='healthz'),
     path('admin/', admin.site.urls),
 ]
