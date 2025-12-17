@@ -11,7 +11,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: managerdash-2401032.local
+  - host: managerdash-2401032.imcc.com
     http:
       paths:
       - path: /
