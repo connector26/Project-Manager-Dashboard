@@ -56,7 +56,7 @@ htmlcov/
 .tox/
 
 # Docker
-.dockerignore
+# (removed .dockerignore - it should be version controlled)
 
 # Kubernetes
 *.kubeconfig

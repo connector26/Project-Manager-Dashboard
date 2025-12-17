@@ -1,0 +1,54 @@
+﻿# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Virtual environments
+venv/
+env/
+ENV/
+myvenv/
+.venv
+
+# Database files - CRITICAL: exclude from Docker builds
+*.sqlite3
+*.sqlite3-journal
+db.sqlite3
+db.sqlite3-journal
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+coverage.xml
+
+# Documentation
+README.md
+*.md
+
+# CI/CD
+.github/
+Jenkinsfile
+
+# Kubernetes
+k8s-deployment/
+*.kubeconfig
+
+# Environment
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
