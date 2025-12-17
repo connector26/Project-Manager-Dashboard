@@ -41,6 +41,8 @@ spec:
           value: "False"
         - name: ALLOWED_HOSTS
           value: "*"
+        - name: DB_NAME
+          value: "/app/db/db.sqlite3"
         
         resources:
           requests:
