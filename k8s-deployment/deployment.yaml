@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: 2401032-managerdash
-  namespace: 2401032
+  namespace: "2401032"
   labels:
     app: managerdash
     version: v1
