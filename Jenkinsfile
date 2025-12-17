@@ -52,7 +52,7 @@ spec:
     environment {
         APP_NAME        = "2401032-managerdash"
         IMAGE_TAG       = "latest"
-        REGISTRY_URL    = "http://nexus-service-for-docker-hosted-registry.nexus.svc.cluster.local:8085"
+        REGISTRY_URL    = "nexus-service-for-docker-hosted-registry.nexus.svc.cluster.local:8085"
         REGISTRY_REPO   = "managerdash"
         SONAR_PROJECT   = "2401032-managerdash"
         SONAR_HOST_URL = "http://my-sonarqube-sonarqube.sonarqube.svc.cluster.local:9000"
