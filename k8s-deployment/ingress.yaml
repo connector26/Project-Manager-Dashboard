@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: managerdash-ingress
-  namespace: 2401032
+  namespace: "2401032"
   labels:
     app: managerdash
   annotations:
