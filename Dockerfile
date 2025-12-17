@@ -20,14 +20,11 @@ RUN pip install --upgrade pip \
 # Copy all project files from current directory
 COPY . /app/
 
-# Create directories for static files and database
-RUN mkdir -p /app/staticfiles /app/db
+# Create directories for static files
+RUN mkdir -p /app/staticfiles
 
 # Collect static files
 RUN python manage.py collectstatic --noinput || true
-
-# Run database migrations
-RUN python manage.py migrate --noinput || true
 
 EXPOSE 8000
 
