@@ -106,7 +106,15 @@ spec:
                 container('dind') {
                     sh 'docker --version'
                     sh 'sleep 10'
-                    sh 'docker login nexus-service-for-docker-hosted-registry.nexus.svc.cluster.local:8085 -u admin -p Changeme@2025'
+                    withCredentials([usernamePassword(
+                        credentialsId: 'nexus-docker-credentials',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_PASS'
+                    )]) {
+                        sh '''
+                            echo "$DOCKER_PASS" | docker login $REGISTRY_URL -u "$DOCKER_USER" --password-stdin
+                        '''
+                    }
                 }
             }
         }
