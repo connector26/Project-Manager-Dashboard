@@ -147,9 +147,6 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
-# Authentication
-LOGIN_URL = '/authentication/login'
-
 # email
 EMAIL_HOSTS = os.environ.get('EMAIL_HOST')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')

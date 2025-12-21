@@ -179,16 +179,6 @@
         </button>
       </li>
       <li class="nav-item text-nowrap">
-
-        <form action="{%url 'logout'%}"method="POST">
-          {% csrf_token %}
-          {%include 'partials/_message.html'%}
-          <input class="text text-capitalize " type="submit" value="Sign out">
-
-          </input>
-        </form>
-      </li>
-      <li class="nav-item text-nowrap">
         <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu"
           aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
           <svg class="bi">
