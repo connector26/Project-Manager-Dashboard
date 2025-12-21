@@ -4,7 +4,7 @@ from django.utils.deprecation import MiddlewareMixin
 # Create your views here.
 
 
-@login_required(login_url='/authentication/login.html')
+@login_required(login_url='/authentication/login')
 def index(request):
     return render(request,'index.html')
 
