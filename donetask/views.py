@@ -2,7 +2,7 @@ from django.shortcuts import render
 import os 
 import json
 from django.conf import settings
-from .models import Donetask
+# No database models needed
 from django.contrib import messages
 # Create your views here.
 

@@ -6,16 +6,15 @@ from django.utils.deprecation import MiddlewareMixin
 def index(request):
     return render(request,'index.html')
 
-def view_notifications(request):
-     return render(request,'viewnotifications.html')
+def viewnotifications(request):
+    return render(request,'viewnotifications.html')
  
 
 def profile(request):
-    user_info = {
-        'name': 'John Doe',
-        'mobile': '123-456-7890',
-        'email': 'john.doe@example.com',
-        'details': 'This is a brief description about John Doe.',
-        'profile_image': 'images/profile.jpg',  # Path to the image in static folder
-    }
-    return render(request, 'profile.html', user_info)
+    return render(request, 'profile.html')
+
+def assignedprojects(request):
+    return render(request, 'assignedprojects.html')
+
+def assignedteam(request):
+    return render(request, 'assignedteam.html')

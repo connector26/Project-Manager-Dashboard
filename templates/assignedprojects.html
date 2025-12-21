@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">📁 Assigned Projects</h1>
+
+    <div class="row">
+        <!-- Project Card 1 -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h5>🚀 E-Commerce Website</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Status:</strong> <span class="badge bg-success">In Progress</span></p>
+                    <p><strong>Deadline:</strong> March 15, 2025</p>
+                    <p><strong>Team Size:</strong> 5 developers</p>
+                    <p><strong>Progress:</strong></p>
+                    <div class="progress mb-2">
+                        <div class="progress-bar bg-success" style="width: 65%">65%</div>
+                    </div>
+                    <p class="text-muted">Building a full-stack e-commerce platform with React and Django.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Card 2 -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-warning">
+                <div class="card-header bg-warning text-dark">
+                    <h5>📱 Mobile App Development</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Status:</strong> <span class="badge bg-warning text-dark">Planning</span></p>
+                    <p><strong>Deadline:</strong> April 30, 2025</p>
+                    <p><strong>Team Size:</strong> 3 developers</p>
+                    <p><strong>Progress:</strong></p>
+                    <div class="progress mb-2">
+                        <div class="progress-bar bg-warning" style="width: 25%">25%</div>
+                    </div>
+                    <p class="text-muted">Cross-platform mobile app using React Native.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Card 3 -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-info">
+                <div class="card-header bg-info text-white">
+                    <h5>🔧 API Microservices</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Status:</strong> <span class="badge bg-info">Active</span></p>
+                    <p><strong>Deadline:</strong> February 28, 2025</p>
+                    <p><strong>Team Size:</strong> 4 developers</p>
+                    <p><strong>Progress:</strong></p>
+                    <div class="progress mb-2">
+                        <div class="progress-bar bg-info" style="width: 80%">80%</div>
+                    </div>
+                    <p class="text-muted">Building microservices architecture with Docker and Kubernetes.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Card 4 -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-success">
+                <div class="card-header bg-success text-white">
+                    <h5>✅ Admin Dashboard</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Status:</strong> <span class="badge bg-success">Completed</span></p>
+                    <p><strong>Deadline:</strong> January 10, 2025</p>
+                    <p><strong>Team Size:</strong> 2 developers</p>
+                    <p><strong>Progress:</strong></p>
+                    <div class="progress mb-2">
+                        <div class="progress-bar bg-success" style="width: 100%">100%</div>
+                    </div>
+                    <p class="text-muted">Modern admin dashboard with analytics and reporting.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

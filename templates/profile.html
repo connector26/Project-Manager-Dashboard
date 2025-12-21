@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Profile Card -->
+        <div class="col-md-4">
+            <div class="card border-0 shadow">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center"
+                            style="width: 120px; height: 120px; font-size: 48px;">
+                            👤
+                        </div>
+                    </div>
+                    <h3>Raj Sharma</h3>
+                    <p class="text-muted">Senior Project Manager</p>
+                    <hr>
+                    <p><strong>📧 Email:</strong> raj.sharma@company.com</p>
+                    <p><strong>📞 Phone:</strong> +91 98765 43210</p>
+                    <p><strong>📍 Location:</strong> Mumbai, India</p>
+                    <p><strong>🏢 Department:</strong> Development</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Details & Stats -->
+        <div class="col-md-8">
+            <div class="card border-0 shadow mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5>👨‍💼 Professional Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <p><strong>Employee ID:</strong> EMP2024001</p>
+                            <p><strong>Join Date:</strong> January 15, 2020</p>
+                            <p><strong>Experience:</strong> 8 Years</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <p><strong>Team Size:</strong> 15 Members</p>
+                            <p><strong>Active Projects:</strong> 4</p>
+                            <p><strong>Completed Projects:</strong> 23</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5>📊 Performance Metrics</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label>Project Completion Rate</label>
+                        <div class="progress" style="height: 25px;">
+                            <div class="progress-bar bg-success" style="width: 92%">92%</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Team Satisfaction Score</label>
+                        <div class="progress" style="height: 25px;">
+                            <div class="progress-bar bg-info" style="width: 88%">88%</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>On-Time Delivery</label>
+                        <div class="progress" style="height: 25px;">
+                            <div class="progress-bar bg-warning" style="width: 85%">85%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow">
+                <div class="card-header bg-info text-white">
+                    <h5>🎯 Skills & Expertise</h5>
+                </div>
+                <div class="card-body">
+                    <span class="badge bg-primary me-2 mb-2">Project Management</span>
+                    <span class="badge bg-success me-2 mb-2">Agile/Scrum</span>
+                    <span class="badge bg-danger me-2 mb-2">Team Leadership</span>
+                    <span class="badge bg-warning text-dark me-2 mb-2">Python/Django</span>
+                    <span class="badge bg-info me-2 mb-2">JavaScript/React</span>
+                    <span class="badge bg-secondary me-2 mb-2">DevOps</span>
+                    <span class="badge bg-dark me-2 mb-2">Cloud Architecture</span>
+                    <span class="badge bg-primary me-2 mb-2">Database Design</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include "partials/_message.html" %}
+
+<div class="container mt-4">
+    <h1 class="mb-4">📢 Notifications</h1>
+    <ul class="list-group">
+        <li class='list-group-item list-group-item-primary'>
+            <strong>🚀 New Project Assigned:</strong> E-commerce Website Development - Start Date: Jan 15, 2025
+        </li>
+        <li class='list-group-item list-group-item-success'>
+            <strong>✅ Task Completed:</strong> Database Migration successfully completed by Team Alpha
+        </li>
+        <li class='list-group-item list-group-item-warning'>
+            <strong>⚠️ Deadline Approaching:</strong> Mobile App Testing due in 2 days
+        </li>
+        <li class='list-group-item list-group-item-info'>
+            <strong>📅 Meeting Scheduled:</strong> Project Review Meeting tomorrow at 10:00 AM
+        </li>
+        <li class='list-group-item list-group-item-danger'>
+            <strong>🔴 Urgent:</strong> API Server experiencing high load - Immediate attention required
+        </li>
+        <li class='list-group-item list-group-item-secondary'>
+            <strong>👥 Team Update:</strong> 2 new developers joined the Backend Team
+        </li>
+        <li class='list-group-item list-group-item-light'>
+            <strong>📊 Report Ready:</strong> Monthly Performance Report is now available for download
+        </li>
+        <li class='list-group-item list-group-item-dark'>
+            <strong>💼 Budget Approved:</strong> Q1 2025 project budget has been approved
+        </li>
+    </ul>
+</div>
+
+{% endblock %}
