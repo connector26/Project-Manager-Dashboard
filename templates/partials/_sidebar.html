@@ -8,7 +8,8 @@
   <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto flex-grow-1">
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{% url "projectdashboard" %}">
+        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{% url " projectdashboard"
+          %}">
           Dashboard
         </a>
       </li>
@@ -23,7 +24,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link d-flex align-items-center gap-2"href="#">
+        <a class="nav-link d-flex align-items-center gap-2" href="#">
           Profile
         </a>
       </li>
@@ -38,15 +39,9 @@
 
     <ul class="nav flex-column mt-3">
       <li class="nav-item">
-        <a class="nav-link d-flex align-items-center gap-2" href="{% url "donetask" %}">
+        <a class="nav-link d-flex align-items-center gap-2" href="{% url " donetask" %}">
           Done Task
         </a>
-      </li>
-      <li class="nav-item">
-        <form action="{% url 'logout' %}" method="POST">
-          {% csrf_token %}
-          <button type="submit" class="nav-link d-flex align-items-center gap-2">Sign out</button>
-        </form>
       </li>
     </ul>
   </div>
