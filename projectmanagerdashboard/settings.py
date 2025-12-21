@@ -69,10 +69,16 @@ TEMPLATES = [
 WSGI_APPLICATION = 'projectmanagerdashboard.wsgi.application'
 
 
-# Database - DISABLED (No database needed)
+# Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {}
+# Use SQLite for testing, no database for production
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Password validation
