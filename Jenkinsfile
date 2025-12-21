@@ -110,7 +110,7 @@ spec:
                 }
             }
         }
-
+        
         stage('Build - Tag - Push Image') {
             steps {
                 container('dind') {

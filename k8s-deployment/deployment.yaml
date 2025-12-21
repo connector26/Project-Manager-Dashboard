@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: managerdash
-        image: nexus-service-for-docker-hosted-registry.nexus.svc.cluster.local:8085/managerdash/2401032-managerdash:latest
+        image: 127.0.0.1:30085/managerdash/2401032-managerdash:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8000
