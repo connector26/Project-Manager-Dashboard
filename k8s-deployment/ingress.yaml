@@ -11,7 +11,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: 2401032.imcc.com
+  - host: projmanagerdash-2401032.imcc.com
     http:
       paths:
       - path: /

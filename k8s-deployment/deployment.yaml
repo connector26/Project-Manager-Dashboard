@@ -42,7 +42,7 @@ spec:
         - name: ALLOWED_HOSTS
           value: "*"
         - name: CSRF_TRUSTED_ORIGINS
-          value: "http://2401032.imcc.com,https://2401032.imcc.com"
+          value: "http://projmanagerdash-2401032.imcc.com,https://projmanagerdash-2401032.imcc.com"
         - name: DB_NAME
           value: "/app/db/db.sqlite3"
         
